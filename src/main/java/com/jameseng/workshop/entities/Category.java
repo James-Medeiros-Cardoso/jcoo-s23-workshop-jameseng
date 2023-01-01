@@ -1,5 +1,6 @@
 package com.jameseng.workshop.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -18,7 +19,9 @@ public class Category implements Serializable {
 
     private String name;
 
-    @Transient // desconsiderar o relacionamento
+    // @Transient // desconsiderar o relacionamento
+    @JsonIgnore
+    @ManyToMany(mappedBy = "categories") // nome da coleção da outra tabela
     private Set<Product> products = new HashSet<>();
 
     public Category() {
