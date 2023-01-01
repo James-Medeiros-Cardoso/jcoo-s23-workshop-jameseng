@@ -1,5 +1,6 @@
 package com.jameseng.workshop.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class User implements Serializable {
     private String phone;
     private String password;
 
+    @JsonIgnore // não fazer lopping na requisição - não será exibido na requisição
     @OneToMany(mappedBy = "client") // campo "client" na entidade Order
     private List<Order> orders = new ArrayList<>();
 
