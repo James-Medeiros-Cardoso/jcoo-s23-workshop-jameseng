@@ -1,8 +1,10 @@
 package com.jameseng.workshop.config;
 
+import com.jameseng.workshop.entities.Category;
 import com.jameseng.workshop.entities.Order;
 import com.jameseng.workshop.entities.User;
 import com.jameseng.workshop.enums.OrderStatus;
+import com.jameseng.workshop.repositories.CategoryRepository;
 import com.jameseng.workshop.repositories.OrderRepository;
 import com.jameseng.workshop.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class TestConfig implements CommandLineRunner { // para perfil de teste
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -36,6 +41,12 @@ public class TestConfig implements CommandLineRunner { // para perfil de teste
         Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), OrderStatus.WAITING_PAYMENT, u1);
         Order o4 = new Order(null, Instant.parse("2022-12-31T18:20:00Z"), OrderStatus.DELIVERED, u3);
         orderRepository.saveAll(Arrays.asList(o1, o2, o3, o4));
+
+        Category cat1 = new Category(null, "Electronics");
+        Category cat2 = new Category(null, "Books");
+        Category cat3 = new Category(null, "Computers");
+        Category cat4 = new Category(null, "Clothes");
+        categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4));
 
     }
 }
