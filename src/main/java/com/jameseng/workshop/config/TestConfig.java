@@ -4,9 +4,13 @@ import com.jameseng.workshop.entities.User;
 import com.jameseng.workshop.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import java.util.Arrays;
 
+@Configuration
+@Profile("test") // spring.profiles.active=test
 public class TestConfig implements CommandLineRunner { // para perfil de teste
 
     @Autowired
