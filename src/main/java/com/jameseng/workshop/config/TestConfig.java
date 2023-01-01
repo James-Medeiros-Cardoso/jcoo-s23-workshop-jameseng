@@ -2,10 +2,12 @@ package com.jameseng.workshop.config;
 
 import com.jameseng.workshop.entities.Category;
 import com.jameseng.workshop.entities.Order;
+import com.jameseng.workshop.entities.Product;
 import com.jameseng.workshop.entities.User;
 import com.jameseng.workshop.enums.OrderStatus;
 import com.jameseng.workshop.repositories.CategoryRepository;
 import com.jameseng.workshop.repositories.OrderRepository;
+import com.jameseng.workshop.repositories.ProductRepository;
 import com.jameseng.workshop.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -28,6 +30,9 @@ public class TestConfig implements CommandLineRunner { // para perfil de teste
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -47,6 +52,13 @@ public class TestConfig implements CommandLineRunner { // para perfil de teste
         Category cat3 = new Category(null, "Computers");
         Category cat4 = new Category(null, "Clothes");
         categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4));
+
+        Product p1 = new Product(null, "The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, "");
+        Product p2 = new Product(null, "Smart TV", "Nulla eu imperdiet purus. Maecenas ante.", 2190.0, "");
+        Product p3 = new Product(null, "Macbook Pro", "Nam eleifend maximus tortor, at mollis.", 1250.0, "");
+        Product p4 = new Product(null, "PC Gamer", "Donec aliquet odio ac rhoncus cursus.", 1200.0, "");
+        Product p5 = new Product(null, "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99, "");
+        productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 
     }
 }
