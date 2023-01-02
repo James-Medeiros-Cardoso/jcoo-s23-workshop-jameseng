@@ -27,7 +27,19 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User update(Long id, User user) {
+        User entity = userRepository.getReferenceById(id); // preparar objeto
+        updateUser(entity, user);
+        return userRepository.save(entity);
+    }
+
     public void delete(Long id) {
         userRepository.deleteById(id);
+    }
+
+    private void updateUser(User entity, User user) {
+        entity.setName(user.getName());
+        entity.setEmail(user.getEmail());
+        entity.setPhone(user.getPhone());
     }
 }
