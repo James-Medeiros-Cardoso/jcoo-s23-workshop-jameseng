@@ -1,5 +1,6 @@
 package com.jameseng.workshop.resources.exceptions;
 
+import com.jameseng.workshop.services.exeptions.DatabaseException;
 import com.jameseng.workshop.services.exeptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,16 @@ public class ResourceExceptionHandler {
     public ResponseEntity<StandardError> ResourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
 
         String error = "Resource not found.";
-        HttpStatus status = HttpStatus.NOT_FOUND;
+        HttpStatus status = HttpStatus.NOT_FOUND; // código 404
+        StandardError errorObject = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(errorObject);
+    }
+
+    @ExceptionHandler(DatabaseException.class) // interceptar exceção ResourceNotFoundException
+    public ResponseEntity<StandardError> database(DatabaseException e, HttpServletRequest request) {
+
+        String error = "Database error.";
+        HttpStatus status = HttpStatus.BAD_REQUEST; // código 400
         StandardError errorObject = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(errorObject);
     }
