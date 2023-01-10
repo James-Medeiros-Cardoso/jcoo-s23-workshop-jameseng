@@ -1,5 +1,6 @@
 package com.jameseng.workshop.services;
 
+import com.jameseng.workshop.dto.UserDTO;
 import com.jameseng.workshop.entities.User;
 import com.jameseng.workshop.repositories.UserRepository;
 import com.jameseng.workshop.services.exeptions.DatabaseException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -19,24 +21,35 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserDTO> findAll() {
+        List<User> list = userRepository.findAll();
+        return list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
     }
 
-    public User findById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.orElseThrow(() -> new ResourceNotFoundException(id));
+    /* public User findById(Long id) {
+    Optional<User> user = userRepository.findById(id);
+    return user.orElseThrow(() -> new ResourceNotFoundException(id));
+} */
+    public UserDTO findById(Long id) {
+        Optional<User> obj = userRepository.findById(id);
+        User user = obj.orElseThrow(() -> new ResourceNotFoundException(id));
+        return new UserDTO(user);
     }
 
-    public User insert(User user) {
-        return userRepository.save(user);
+    public UserDTO insert(UserDTO userDto) {
+        User user = new User();
+        dtoToEntity(userDto, user);
+        user = userRepository.save(user);
+        return new UserDTO(user);
     }
 
-    public User update(Long id, User user) {
+
+    public UserDTO update(Long id, UserDTO userDto) {
         try {
-            User entity = userRepository.getReferenceById(id); // preparar objeto
-            updateUser(entity, user);
-            return userRepository.save(entity);
+            User user = userRepository.getReferenceById(id); // preparar objeto
+            dtoToEntity(userDto, user);
+            user = userRepository.save(user);
+            return new UserDTO(user);
         } catch (EntityNotFoundException e) {
             //e.printStackTrace();
             throw new ResourceNotFoundException(id);
@@ -57,5 +70,12 @@ public class UserService {
         entity.setName(user.getName());
         entity.setEmail(user.getEmail());
         entity.setPhone(user.getPhone());
+    }
+
+    private void dtoToEntity(UserDTO userDto, User user) {
+        user.setName(userDto.getName());
+        user.setEmail(userDto.getEmail());
+        user.setPhone(userDto.getPhone());
+        user.setPassword(userDto.getPassword());
     }
 }
