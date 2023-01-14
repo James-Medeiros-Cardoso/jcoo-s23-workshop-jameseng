@@ -1,0 +1,9 @@
+Além da opção Doougui, você pode usar comando no terminal:
+
+git checkout -b continuação-James
+Depois, quando quiser subir a branch, faça os commits:
+
+git commit -m "UserDTO inserted"
+Depois, subindo de fato:
+
+git push --set-upstream origin continuação-James
