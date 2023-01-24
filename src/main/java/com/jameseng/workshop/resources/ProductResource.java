@@ -1,6 +1,6 @@
 package com.jameseng.workshop.resources;
 
-import com.jameseng.workshop.entities.Product;
+import com.jameseng.workshop.dto.ProductDTO;
 import com.jameseng.workshop.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +19,14 @@ public class ProductResource {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<Product>> findAll() {
-        List<Product> products = productService.findAll();
-        return ResponseEntity.ok().body(products);
+    public ResponseEntity<List<ProductDTO>> findAll() {
+        List<ProductDTO> list = productService.findAll();
+        return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Product> findById(@PathVariable Long id) {
-        Product product = productService.findById(id);
-        return ResponseEntity.ok().body(product);
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
+        ProductDTO productDto = productService.findById(id);
+        return ResponseEntity.ok().body(productDto);
     }
 }

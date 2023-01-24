@@ -2,7 +2,10 @@ package com.jameseng.workshop.dto;
 
 import com.jameseng.workshop.entities.User;
 
-public class UserDTO {
+import java.io.Serializable;
+
+public class UserDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private String name;

@@ -3,9 +3,12 @@ package com.jameseng.workshop.services;
 import com.jameseng.workshop.dto.CategoryDTO;
 import com.jameseng.workshop.entities.Category;
 import com.jameseng.workshop.repositories.CategoryRepository;
+import com.jameseng.workshop.services.exeptions.DatabaseException;
 import com.jameseng.workshop.services.exeptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,4 +55,13 @@ public class CategoryService {
         }
     }
 
+    public void delete(Long id) {
+        try {
+            categoryRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("CategoryService/Id not found = " + id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("CategoryService/Integrity violation.");
+        }
+    }
 }

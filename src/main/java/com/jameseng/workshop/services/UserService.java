@@ -32,7 +32,8 @@ public class UserService {
 } */
     public UserDTO findById(Long id) {
         Optional<User> obj = userRepository.findById(id);
-        User user = obj.orElseThrow(() -> new ResourceNotFoundException(id));
+        //User user = obj.orElseThrow(() -> new ResourceNotFoundException(id));
+        User user = obj.orElseThrow(() -> new ResourceNotFoundException("UserService/Id not found = " + id));
         return new UserDTO(user);
     }
 
@@ -52,7 +53,8 @@ public class UserService {
             return new UserDTO(user);
         } catch (EntityNotFoundException e) {
             //e.printStackTrace();
-            throw new ResourceNotFoundException(id);
+            //throw new ResourceNotFoundException(id);
+            throw new ResourceNotFoundException("UserService/Id not found = " + id);
         }
     }
 
@@ -60,7 +62,8 @@ public class UserService {
         try {
             userRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException(id);
+            //throw new ResourceNotFoundException(id);
+            throw new ResourceNotFoundException("UserService/Id not found = " + id);
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException(e.getMessage()); // exceção da minha camada de serviço
         }
