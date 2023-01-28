@@ -49,6 +49,7 @@ public class ProductService {
         return new ProductDTO(product, product.getCategories());
     }
 
+    @Transactional
     public ProductDTO update(Long id, ProductDTO productDto) {
         try {
             Product product = productRepository.getReferenceById(id);
